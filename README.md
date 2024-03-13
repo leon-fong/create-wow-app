@@ -1,1 +1,1 @@
-# create-vite-app
+# create-wow-app

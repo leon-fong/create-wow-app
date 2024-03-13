@@ -1,11 +1,11 @@
 {
-  "name": "create-vite-app",
+  "name": "create-wow-app",
   "version": "0.1.0",
   "type": "module",
   "license": "MIT",
   "author": "Leon Fong",
   "bin": {
-    "create-vite-app": "index.js"
+    "create-wow-app": "index.js"
   },
   "files": [
     "index.js",
@@ -22,13 +22,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leon-fong/create-vite-app.git"
+    "url": "git+https://github.com/leon-fong/create-wow-app.git"
   },
   "bugs": {
-    "url": "https://github.com/leon-fong/create-vite-app/issues"
+    "url": "https://github.com/leon-fong/create-wow-app/issues"
   },
-  "homepage": "https://github.com/leon-fong/create-vite-app/tree/main/#readme",
+  "homepage": "https://github.com/leon-fong/create-wow-app/tree/main/#readme",
   "devDependencies": {
+    "@types/node": "^20.11.26",
     "consola": "^3.2.3",
     "unbuild": "^2.0.0"
   }
