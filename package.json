@@ -9,17 +9,27 @@
   },
   "files": [
     "index.js",
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
-    "dev": "unbuild --stub",
+    "dev": "esno src/index.ts",
+    "stub": "unbuild --stub",
     "build": "unbuild",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "release": "bumpp && npm publish  --access=public"
   },
   "engines": {
     "node": "^18.0.0 || >=20.0.0"
   },
+  "keywords": [
+    "create-wow-app",
+    "react",
+    "vue",
+    "UnoCSS",
+    "typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leon-fong/create-wow-app.git"
@@ -29,8 +39,24 @@
   },
   "homepage": "https://github.com/leon-fong/create-wow-app/tree/main/#readme",
   "devDependencies": {
+    "@antfu/eslint-config": "^2.8.1",
     "@types/node": "^20.11.26",
+    "bumpp": "^9.4.0",
+    "citty": "^0.1.6",
     "consola": "^3.2.3",
+    "eslint": "^8.57.0",
+    "esno": "^4.7.0",
+    "lint-staged": "^15.2.2",
+    "simple-git-hooks": "^2.10.0",
+    "typescript": "^5.4.2",
     "unbuild": "^2.0.0"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,vue}": [
+      "eslint --cache --fix"
+    ]
   }
 }
