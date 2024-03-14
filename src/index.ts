@@ -69,34 +69,24 @@ const main = defineCommand({
     }
 
     // Get template name
-
     let framework = template
-    if (typeof template !== 'string') {
+
+    if (typeof template !== 'string' || !templateOptions.includes(template)) {
       try {
-        framework = await consola.prompt('Select a framework: ', {
-          type: 'select',
-          options: templateOptions,
-          initial: DEFAULT_TEMPLATE_NAME,
-        })
+        framework = await consola.prompt(
+          typeof template !== 'string'
+            ? 'Select a framework: '
+            : `"${template}" isn't a valid template. Please choose from below: `,
+          {
+            type: 'select',
+            options: templateOptions,
+            initial: DEFAULT_TEMPLATE_NAME,
+          },
+        )
       }
       catch (error) {
         consola.error(error)
         process.exit(1)
-      }
-    }
-    else {
-      if (!templateOptions.includes(template)) {
-        try {
-          framework = await consola.prompt(`"${template}" isn't a valid template. Please choose from below: `, {
-            type: 'select',
-            options: templateOptions,
-            initial: DEFAULT_TEMPLATE_NAME,
-          })
-        }
-        catch (error) {
-          consola.error(error)
-          process.exit(1)
-        }
       }
     }
 
