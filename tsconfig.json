@@ -1,5 +1,4 @@
 {
-  "include": ["build.config.ts", "src"],
   "compilerOptions": {
     "outDir": "dist",
     "target": "ES2022",
@@ -10,6 +9,9 @@
     "declaration": false,
     "sourceMap": false,
     "noUnusedLocals": true,
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+    "allowJs": true,
+    "types": ["node"],
+  },
+  "include": ["src"]
 }
