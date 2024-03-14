@@ -22,7 +22,7 @@
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
     "release": "bumpp && npm publish  --access=public",
-    "postinstall": "npx simple-git-hooks"
+    "prepare": "npx simple-git-hooks"
   },
   "engines": {
     "node": "^18.0.0 || >=20.0.0"
