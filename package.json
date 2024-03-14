@@ -4,8 +4,10 @@
   "type": "module",
   "license": "MIT",
   "author": "Leon Fong",
+  "description": "Interactive CLI to start a PC/H5/Miniprogram app",
   "bin": {
-    "create-wow-app": "index.js"
+    "create-wow-app": "index.js",
+    "cwa": "index.js"
   },
   "files": [
     "index.js",
@@ -17,6 +19,7 @@
     "stub": "unbuild --stub",
     "build": "unbuild",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
     "prepublishOnly": "npm run build",
     "release": "bumpp && npm publish  --access=public",
     "postinstall": "npx simple-git-hooks"

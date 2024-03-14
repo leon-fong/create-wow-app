@@ -1,4 +1,4 @@
-import path from "path"
+import path from 'node:path'
 import fs from 'node:fs'
 
 export function formatTargetDir(targetDir: string | undefined) {
@@ -7,11 +7,10 @@ export function formatTargetDir(targetDir: string | undefined) {
 
 export function copy(src: string, dest: string) {
   const stat = fs.statSync(src)
-  if (stat.isDirectory()) {
+  if (stat.isDirectory())
     copyDir(src, dest)
-  } else {
+  else
     fs.copyFileSync(src, dest)
-  }
 }
 
 export function copyDir(srcDir: string, destDir: string) {
@@ -24,11 +23,16 @@ export function copyDir(srcDir: string, destDir: string) {
 }
 
 export function pkgFromUserAgent(userAgent: string | undefined) {
-  if (!userAgent) return undefined
+  if (!userAgent)
+    return undefined
   const pkgSpec = userAgent.split(' ')[0]
   const pkgSpecArr = pkgSpec.split('/')
   return {
     name: pkgSpecArr[0],
     version: pkgSpecArr[1],
   }
+}
+
+export function sample(arr: string[]) {
+  return arr[Math.floor(Math.random() * arr.length)]
 }

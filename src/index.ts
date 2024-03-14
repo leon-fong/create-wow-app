@@ -1,10 +1,13 @@
-import { consola } from "consola";
-import { colors } from "consola/utils";
-import { defineCommand, runMain } from "citty";
-import path from "node:path";
 import fs from 'node:fs'
+import path from 'node:path'
+import process from 'node:process'
 import { fileURLToPath } from 'node:url'
-import { copy, formatTargetDir, pkgFromUserAgent } from "./utils/kit";
+import { consola } from 'consola'
+import { colors } from 'consola/utils'
+import { defineCommand, runMain } from 'citty'
+import pkg from '../package.json'
+import { conclusions } from './utils/conclusion'
+import { copy, formatTargetDir, pkgFromUserAgent, sample } from './utils/kit'
 
 const DEFAULT_TARGETDIR = 'wow-app'
 const DEFAULT_TEMPLATE_NAME = 'vue'
@@ -13,19 +16,19 @@ const templateOptions = ['vue', 'react']
 const cwd = process.cwd()
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',
-  // '_eslintrc.cjs': '.eslintrc.cjs'
 }
 
 const main = defineCommand({
   meta: {
-    name: "create-wow-app",
-    version: "0.1.0",
+    name: pkg.name,
+    version: pkg.version,
+    description: pkg.description,
   },
   args: {
     dir: {
       type: 'positional',
       description: 'Project directory',
-      required: false
+      required: false,
     },
     template: {
       type: 'string',
@@ -34,12 +37,11 @@ const main = defineCommand({
     },
   },
   run: async (ctx) => {
-
     consola.info(`${colors.bgCyan(colors.black(' create-wow-app '))}`)
 
     const { dir, template } = ctx.args
 
-    let argTargetDir = formatTargetDir(dir)
+    const argTargetDir = formatTargetDir(dir)
     let targetDir = argTargetDir || DEFAULT_TARGETDIR
 
     let packageName
@@ -54,13 +56,13 @@ const main = defineCommand({
           placeholder: DEFAULT_TARGETDIR,
         })
 
-        //TODO Operation cancelled
+        // TODO Operation cancelled
 
-        //TODO Overwrite not empty directory
+        // TODO Overwrite not empty directory
 
-      
         targetDir = formatTargetDir(packageName) || DEFAULT_TARGETDIR
-      } catch (error) {
+      }
+      catch (error) {
         consola.error(error)
         process.exit(1)
       }
@@ -74,21 +76,24 @@ const main = defineCommand({
         framework = await consola.prompt('Select a framework: ', {
           type: 'select',
           options: templateOptions,
-          initial: DEFAULT_TEMPLATE_NAME
+          initial: DEFAULT_TEMPLATE_NAME,
         })
-      } catch (error) {
+      }
+      catch (error) {
         consola.error(error)
         process.exit(1)
       }
-    } else {
+    }
+    else {
       if (!templateOptions.includes(template)) {
         try {
           framework = await consola.prompt(`"${template}" isn't a valid template. Please choose from below: `, {
             type: 'select',
             options: templateOptions,
-            initial: DEFAULT_TEMPLATE_NAME
+            initial: DEFAULT_TEMPLATE_NAME,
           })
-        } catch (error) {
+        }
+        catch (error) {
           consola.error(error)
           process.exit(1)
         }
@@ -106,24 +111,21 @@ const main = defineCommand({
 
     // if (overwrite === 'yes') {
     //   emptyDir(root)
-    // } else 
-    if (!fs.existsSync(root)) {
+    // } else
+    if (!fs.existsSync(root))
       fs.mkdirSync(root, { recursive: true })
-    }
 
     const write = (file: string, content?: string) => {
       const targetPath = path.join(root, renameFiles[file] ?? file)
-      if (content) {
+      if (content)
         fs.writeFileSync(targetPath, content)
-      } else {
+      else
         copy(path.join(templateDir, file), targetPath)
-      }
     }
 
     const files = fs.readdirSync(templateDir)
-    for (const file of files.filter((f) => f !== 'package.json')) {
+    for (const file of files.filter(f => f !== 'package.json'))
       write(file)
-    }
 
     const pkg = JSON.parse(
       fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'),
@@ -131,16 +133,15 @@ const main = defineCommand({
 
     pkg.name = packageName || getProjectName()
 
-    write('package.json', JSON.stringify(pkg, null, 2) + '\n')
+    write('package.json', `${JSON.stringify(pkg, null, 2)}\n`)
 
     const cdProjectName = path.relative(cwd, root)
 
     consola.success(`Creation completed. Now run:`)
 
     const commands = []
-    if (root !== cwd) {
+    if (root !== cwd)
       commands.push(`cd ${cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName}`)
-    }
 
     const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
     const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
@@ -154,7 +155,9 @@ const main = defineCommand({
     }
 
     consola.box(commands.join(' '))
-  }
-});
+    consola.info(colors.gray(sample(conclusions)))
+    console.log('\n')
+  },
+})
 
-runMain(main);
+runMain(main)

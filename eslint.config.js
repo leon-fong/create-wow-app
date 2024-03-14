@@ -5,11 +5,13 @@ export default antfu(
   {
     ignores: [
       // eslint ignore globs here
+      'templates/**',
     ],
   },
   {
     rules: {
       // overrides
+      'no-console': 'off',
     },
   },
 )
