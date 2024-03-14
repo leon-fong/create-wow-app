@@ -35,3 +35,7 @@ $ bun create wow-app
 [downloads-image]: https://img.shields.io/npm/dm/create-wow-app?color=364fc7&logoColor=364fc7
 [npm-url]: https://npmjs.com/package/create-wow-app
 [npm-image]: https://img.shields.io/npm/v/create-wow-app?color=0b7285&logoColor=0b7285
+
+## Roadmap
+
+Check out the [Roadmap](https://github.com/leon-fong/create-wow-app/issues/1)
