@@ -10,8 +10,28 @@ import { conclusions } from './utils/conclusion'
 import { copy, formatTargetDir, pkgFromUserAgent, sample } from './utils/kit'
 
 const DEFAULT_TARGETDIR = 'wow-app'
-const DEFAULT_TEMPLATE_NAME = 'vue'
-const templateOptions = ['vue', 'react']
+const DEFAULT_FRAMEWORK = 'vue'
+const DEFAULT_PROJECT_TYPE = 'web'
+
+interface Option {
+  label: string
+  value: string
+  hint?: string
+}
+
+const frameworkOptions: Option[] = [
+  { label: 'Vue', value: 'vue' },
+  { label: 'React', value: 'react' },
+]
+
+const projectTypeOptions: Option[] = [
+  { label: 'Web', value: 'web' },
+  { label: 'Mobile Web', value: 'mobile-web', hint: 'Only running by mobile browser' },
+  { label: 'Desktop App', value: 'desktop-app' },
+  { label: 'Mini Program', value: 'mini-program' },
+  { label: 'Browser Extension', value: 'browser-extension' },
+  { label: 'VSCode Extension', value: 'vscode-extension' },
+]
 
 const cwd = process.cwd()
 const renameFiles: Record<string, string | undefined> = {
@@ -30,32 +50,33 @@ const main = defineCommand({
       description: 'Project directory',
       required: false,
     },
-    template: {
+    framework: {
+      type: 'string',
+      alias: 'f',
+      description: 'Framework',
+    },
+    projectType: {
       type: 'string',
       alias: 't',
-      description: 'Template name',
+      description: 'Project type',
     },
   },
   run: async (ctx) => {
     consola.info(`${colors.bgCyan(colors.black(' create-wow-app '))}`)
 
-    const { dir, template } = ctx.args
-
-    const argTargetDir = formatTargetDir(dir)
+    // Get directory
+    const argTargetDir = formatTargetDir(ctx.args.dir)
     let targetDir = argTargetDir || DEFAULT_TARGETDIR
-
-    let packageName
-
     const getProjectName = () =>
       targetDir === '.' ? path.basename(path.resolve()) : targetDir
 
+    let packageName
     if (!argTargetDir) {
       try {
         packageName = await consola.prompt('Project Name: ', {
           type: 'text',
           placeholder: DEFAULT_TARGETDIR,
         })
-
         // TODO Operation cancelled
 
         // TODO Overwrite not empty directory
@@ -64,39 +85,69 @@ const main = defineCommand({
       }
       catch (error) {
         consola.error(error)
+        consola.info('Aborting')
         process.exit(1)
       }
     }
 
-    // Get template name
-    let framework = template
-
-    if (typeof template !== 'string' || !templateOptions.includes(template)) {
+    // Get framework name
+    const framework = ctx.args.framework
+    const filterFrameworkOptions = frameworkOptions.map(item => item.value)
+    if (typeof framework !== 'string' || !filterFrameworkOptions.includes(framework)) {
       try {
-        framework = await consola.prompt(
-          typeof template !== 'string'
+        ctx.args.framework = (await consola.prompt(
+          typeof framework !== 'string'
             ? 'Select a framework: '
-            : `"${template}" isn't a valid template. Please choose from below: `,
+            : `"${framework}" isn't a valid framework. Please choose from below: `,
           {
             type: 'select',
-            options: templateOptions,
-            initial: DEFAULT_TEMPLATE_NAME,
+            options: frameworkOptions,
+            initial: DEFAULT_FRAMEWORK,
           },
-        )
+        )) as any
       }
       catch (error) {
         consola.error(error)
+        consola.info('Aborting')
         process.exit(1)
       }
     }
 
-    const templateDir = path.resolve(
-      fileURLToPath(import.meta.url),
-      '../../templates',
-      framework,
-    )
+    // Get project type
+    const projectType = ctx.args.projectType
+    const filterProjectTypeOptions = projectTypeOptions.map(item => item.value)
+    if (typeof projectType !== 'string' || !filterProjectTypeOptions.includes(projectType)) {
+      try {
+        ctx.args.projectType = (await consola.prompt(
+          typeof projectType !== 'string'
+            ? 'Project Type: '
+            : `"${projectType}" isn't a valid project type. Please choose from below: `,
+          {
+            type: 'select',
+            options: projectTypeOptions,
+            initial: DEFAULT_PROJECT_TYPE,
+          },
+        )) as any
+      }
+      catch (error) {
+        consola.error(error)
+        consola.info('Aborting')
+        process.exit(1)
+      }
+    }
 
     // Write files
+    const templateDir = path.resolve(
+      fileURLToPath(import.meta.url),
+      `../../templates/${ctx.args.framework}`,
+      ctx.args.projectType,
+    )
+
+    if (!fs.existsSync(templateDir)) {
+      consola.info('Coming soon!')
+      process.exit(1)
+    }
+
     const root = path.join(cwd, targetDir)
 
     // if (overwrite === 'yes') {

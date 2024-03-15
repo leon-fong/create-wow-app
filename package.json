@@ -30,9 +30,10 @@
   },
   "keywords": [
     "create-wow-app",
-    "react",
-    "vue",
-    "UnoCSS",
+    "cli",
+    "template",
+    "starter-kit",
+    "starter-template",
     "typescript"
   ],
   "repository": {
