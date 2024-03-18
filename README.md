@@ -1,6 +1,6 @@
 # create-wow-app [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url]
 
-Interactive CLI to start a PC/H5/Miniprogram app.
+Quickly start a lightweight, typesafe App from popular templates.
 
 > 🚧 This project is under heavy development. More features are coming soon!
 

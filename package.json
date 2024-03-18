@@ -4,7 +4,7 @@
   "type": "module",
   "license": "MIT",
   "author": "Leon Fong",
-  "description": "Interactive CLI to start a PC/H5/Miniprogram app",
+  "description": "Quickly start a lightweight, typesafe App from popular templates",
   "bin": {
     "create-wow-app": "index.js",
     "cwa": "index.js"
