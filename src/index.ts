@@ -6,12 +6,14 @@ import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import { defineCommand, runMain } from 'citty'
 import pkg from '../package.json'
+import { prompt } from './utils/prompt'
 import { conclusions } from './utils/conclusion'
 import { copy, formatTargetDir, pkgFromUserAgent, sample } from './utils/kit'
 
 const DEFAULT_TARGETDIR = 'wow-app'
 const DEFAULT_FRAMEWORK = 'vue'
 const DEFAULT_PROJECT_TYPE = 'web'
+const version = `v${pkg.version}`
 
 interface Option {
   label: string
@@ -62,7 +64,8 @@ const main = defineCommand({
     },
   },
   run: async (ctx) => {
-    consola.info(`${colors.bgCyan(colors.black(' create-wow-app '))}`)
+    console.log('\n')
+    consola.log(`✨ ${colors.white('create-wow-app')} ${colors.cyan(version)}`)
 
     // Get directory
     const argTargetDir = formatTargetDir(ctx.args.dir)
@@ -73,7 +76,7 @@ const main = defineCommand({
     let packageName
     if (!argTargetDir) {
       try {
-        packageName = await consola.prompt('Project Name: ', {
+        packageName = await prompt('Project Name: ', {
           type: 'text',
           placeholder: DEFAULT_TARGETDIR,
         })
@@ -85,7 +88,6 @@ const main = defineCommand({
       }
       catch (error) {
         consola.error(error)
-        consola.info('Aborting')
         process.exit(1)
       }
     }
@@ -108,7 +110,6 @@ const main = defineCommand({
       }
       catch (error) {
         consola.error(error)
-        consola.info('Aborting')
         process.exit(1)
       }
     }
@@ -131,7 +132,6 @@ const main = defineCommand({
       }
       catch (error) {
         consola.error(error)
-        consola.info('Aborting')
         process.exit(1)
       }
     }
@@ -145,7 +145,7 @@ const main = defineCommand({
 
     if (!fs.existsSync(templateDir)) {
       consola.info('Coming soon!')
-      process.exit(1)
+      process.exit(0)
     }
 
     const root = path.join(cwd, targetDir)
@@ -178,7 +178,7 @@ const main = defineCommand({
 
     const cdProjectName = path.relative(cwd, root)
 
-    consola.success(`Creation completed. Now run:`)
+    consola.log(`\nCreation completed. Now run:`)
 
     const commands = []
     if (root !== cwd)
@@ -196,7 +196,7 @@ const main = defineCommand({
     }
 
     consola.box(commands.join(' '))
-    consola.info(colors.gray(sample(conclusions)))
+    consola.log(colors.gray(sample(conclusions)))
     console.log('\n')
   },
 })
