@@ -80,7 +80,6 @@ const main = defineCommand({
           type: 'text',
           placeholder: DEFAULT_TARGETDIR,
         })
-        // TODO Operation cancelled
 
         // TODO Overwrite not empty directory
 
@@ -97,7 +96,7 @@ const main = defineCommand({
     const filterFrameworkOptions = frameworkOptions.map(item => item.value)
     if (typeof framework !== 'string' || !filterFrameworkOptions.includes(framework)) {
       try {
-        ctx.args.framework = (await consola.prompt(
+        ctx.args.framework = (await prompt(
           typeof framework !== 'string'
             ? 'Select a framework: '
             : `"${framework}" isn't a valid framework. Please choose from below: `,
@@ -119,7 +118,7 @@ const main = defineCommand({
     const filterProjectTypeOptions = projectTypeOptions.map(item => item.value)
     if (typeof projectType !== 'string' || !filterProjectTypeOptions.includes(projectType)) {
       try {
-        ctx.args.projectType = (await consola.prompt(
+        ctx.args.projectType = (await prompt(
           typeof projectType !== 'string'
             ? 'Project Type: '
             : `"${projectType}" isn't a valid project type. Please choose from below: `,
