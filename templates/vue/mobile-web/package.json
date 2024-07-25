@@ -4,13 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "cross-env MOCK_SERVER_PORT=8086 vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "build:dev": "vue-tsc --noEmit && vite build --mode=development",
-    "preview": "vite preview",
-    "lint": "eslint --cache .",
-    "lint:fix": "eslint . --fix",
-    "prepare": "npx simple-git-hooks"
+    "preinstall": "npx only-allow pnpm",
+    "build:production": "vite build --mode production",
+    "build": "vite build --mode test",
+    "dev": "vite --host",
+    "lint": "eslint .",
+    "preview": "vite preview --mode test",
+    "postinstall": "npx simple-git-hooks"
   },
   "dependencies": {
     "@unhead/vue": "^1.8.11",
