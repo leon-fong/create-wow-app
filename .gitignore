@@ -9,5 +9,3 @@ dist
 logs
 node_modules
 .eslintcache
-templates/**/pnpm-lock.yaml
-templates/**/**/pnpm-lock.yaml
