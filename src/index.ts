@@ -28,11 +28,8 @@ const frameworkOptions: Option[] = [
 
 const projectTypeOptions: Option[] = [
   { label: 'Web', value: 'web' },
-  { label: 'Mobile Web', value: 'mobile-web', hint: 'Only running by mobile browser' },
-  { label: 'Desktop App', value: 'desktop-app' },
-  { label: 'Mini Program', value: 'mini-program' },
-  { label: 'Browser Extension', value: 'browser-extension' },
-  { label: 'VSCode Extension', value: 'vscode-extension' },
+  { label: 'Mobile Web (H5)', value: 'mobile-web', hint: 'Only running by mobile browser' },
+  { label: 'Mini Program', value: 'mini-program', hint: 'Only running by WeChat' },
 ]
 
 const cwd = process.cwd()
