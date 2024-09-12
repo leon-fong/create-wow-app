@@ -1,0 +1,9 @@
+{
+  "weixin": {
+    "appid": "微信小程序appid",
+    "privateKeyPath": "密钥文件相对项目根目录的相对路径，例如 key/private.appid.key",
+    "projectPath": "dist/build/mp-weixin"
+  },
+  "version": "0.0.1",
+  "desc": "版本描述"
+}
