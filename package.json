@@ -1,7 +1,7 @@
 {
   "name": "create-wow-app",
   "type": "module",
-  "version": "0.5.1-beta.2",
+  "version": "0.5.1-beta.3",
   "description": "Quickly start a lightweight, typesafe App from popular templates",
   "author": "Leon Fong",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
-    "release": "bumpp",
+    "release": "bumpp --no-tag",
     "prepare": "npx simple-git-hooks",
     "check-exports": "attw --pack ."
   },
